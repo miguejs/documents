@@ -1,27 +1,28 @@
 require 'sinatra'
 require './lib/document'
+require './config'
 
 get '/' do
   erb :new_document
 end
 
 get '/documents' do
-  @documents = []
-  4.times do
-    @documents << Document.new(
-      'Titulo',
-      'Tag1, Tag2',
-      'Descripción'
-    )
-  end
+  @documents = Document.all
   erb :documents
 end
 
-post '/create_document' do 
+post '/create_document' do
   @document = Document.new(
     params[:title],
     params[:tags],
     params[:description]
   )
+  @document.save
+  erb :document
+end
+
+get '/document/:id' do
+  @document = Document.find(params[:id])
+  p @document
   erb :document
 end
