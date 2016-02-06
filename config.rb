@@ -1,8 +1,7 @@
 require 'sinatra'
 require './lib/document'
 require 'sequel'
-
-DB = Sequel.sqlite('documents.db')
+Sequel.connect(ENV['DATABASE_URL'])
 
 DB.create_table? :documents do
   primary_key :id
